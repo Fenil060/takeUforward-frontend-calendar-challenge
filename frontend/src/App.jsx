@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useEffect } from 'react';
 import './App.css'
 
 function App() {
@@ -6,7 +7,19 @@ function App() {
   const [currentDate, setCurrentDate] = useState(new Date(2026, 0 )); // January 2026
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [notes, setNotes] = useState({});
+  const [currentNote, setCurrentNote] = useState("");
 
+  useEffect(() => {
+    localStorage.setItem("calendar-notes", JSON.stringify(notes));
+  }, [notes]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("calendar-notes");
+    if (saved) {
+      setNotes(JSON.parse(saved));
+    }
+  }, []);
 
   const year = 2026;
   const month = currentDate.getMonth();
@@ -49,7 +62,7 @@ function App() {
     }else if(!endDate) {
       if(date < startDate) {
         setEndDate(startDate);
-        setStartDate(dte);
+        setStartDate(date);
       }else{
         setEndDate(date);
       }
@@ -58,6 +71,25 @@ function App() {
       setEndDate(null);
     }
   }
+
+  const getKey = () => {
+    if (!startDate) return null;
+
+    const start = startDate;
+    const end = endDate || startDate;
+
+    return `${year}-${month}-${start}-${end}`;
+  };
+
+  useEffect(() => {
+    const key = getKey();
+
+    if (key && notes[key]) {
+      setCurrentNote(notes[key]);
+    } else {
+      setCurrentNote("");
+    }
+  }, [startDate, endDate, month]);
 
   return (
     <div className="container">
@@ -69,7 +101,21 @@ function App() {
 
             <div className="content">
               <div className="notes">
-                <textarea placeholder='write your notes here'></textarea>
+                <textarea value={currentNote}
+                    onChange={(e) => {
+                    const value = e.target.value;
+                    setCurrentNote(value);
+
+                    const key = getKey();
+                    if (!key) return;
+
+                    setNotes((prev) => ({
+                      ...prev,
+                      [key]: value,
+                    }));
+                  }}
+                  placeholder="Write note for selected range...">
+                </textarea>
               </div>
 
               <div className="calendar">
@@ -96,7 +142,7 @@ function App() {
                     {Array.from({length: daysInMonth}).map((_, i) => (
                       <div key={i} className={`date ${startDate === i+1 ? 'start' : ''} ${endDate === i+1 ? 'end' : ''} ${startDate && endDate && i+1 > startDate && i+1 < endDate ? 'in-range' : ''}`
 
-                      } onClick={() => handleDateClick(i+1)}>
+                      } onClick={() => handleDateClick(i+1)} >
                         {i+1}
                       </div>
                     ))}
