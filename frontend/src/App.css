@@ -1,85 +1,94 @@
 .container {
-  min-height : 100vh;
+  min-height: 100vh;
   background: #f3f4f6;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
 }
 
 .card {
-  background: #fff;
-  /* padding: 30px; */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
   width: 100%;
-  max-width: 550px;
-  border-radius: none;
+  background: white;
+  border-radius: 12px;
   overflow: hidden;
-  height: 100%;
-  max-height: 3000px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
+/* IMAGE */
 .image {
-  height: 250px;
-  background: #9ca3af;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+  position: relative;
+  height: 300px;
+  overflow: hidden;
 }
 
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+
+.month-text {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  text-align: right;
+  z-index: 2;
+}
+
+.month-text h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.month-text p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* CONTENT */
 .content {
-  display : flex;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
 }
 
-.notes{
-  width: 30%;
+.notes {
+  width: 40%;
+}
+
+.notes h4 {
+  margin-bottom: 10px;
+  color: #374151;
 }
 
 .notes textarea {
   width: 100%;
-  height: 150px;
-  margin-top: 5px;
-  margin-right: 10px;
-  padding: 20px;
-  text-decoration-line: underline;
+  height: 200px;
   border: none;
+  outline: none;
+  resize: none;
+  padding: 10px;
 
+  background: repeating-linear-gradient(
+    white,
+    white 24px,
+    #ddd 25px
+  );
 }
 
-.calandar {
-  width : 70%;
-}
-
-.days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-weight: bold;
-  gap: 8px;
-  font-size: 14px;
-  margin-left: 40px;
-  margin-right: 40px;
-  margin-bottom: 8px;
-  margin-top:40px;
-}
-
-.dates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 40px;
-  margin-left: 40px;
-  margin-right: 40px;
-  
-}
-
-.date {
-  height : 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* border: 1px solid #ddd; */
+/* CALENDAR */
+.calendar {
+  width: 60%;
 }
 
 .calendar-header {
@@ -90,30 +99,73 @@
 }
 
 .calendar-header button {
-  padding: 5px 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
   cursor: pointer;
+}
+
+.days, .dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.days div {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.dates {
+  min-height: 260px;
 }
 
 .date {
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Start Date */
-.start {
-  background-color: #2563eb;
-  color: white;
+.date:hover {
+  background: #f1f3f4;
+  transform: translateY(-2px);
+  color: #2563eb;
+}
+
+/* Selection */
+.start, .end {
+  background: #2563eb !important;
+  color: white !important;
   border-radius: 50%;
 }
 
-/* End Date */
-.end {
-  background-color: #1e40af;
-  color: white;
-  border-radius: 50%;
-}
-
-/* In Between */
 .in-range {
-  background-color: #c6dbf3;
-  border-radius: 50%;
+  background: #dbeafe;
+}
+
+/* Saturday */
+.saturday {
+  background-color: #fcf8ec;
+  color: #f9aa0c;
+}
+
+/* Sunday */
+.sunday {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .notes, .calendar {
+    width: 100%;
+  }
 }
