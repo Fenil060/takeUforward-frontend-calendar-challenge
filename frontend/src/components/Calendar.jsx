@@ -1,5 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 
+const today = new Date();
+const todayDate = today.getDate();
+const todayMonth = today.getMonth();
+const todayYear = today.getFullYear();
+
 function Calendar({
   month,
   monthName,
@@ -43,6 +48,9 @@ function Calendar({
 
                 const dayIndex = (firstDayOfMonth + i) % 7;
 
+                 const isToday = i + 1 === todayDate && month === todayMonth && 2026 === todayYear;
+
+
                 return (
                     <motion.div
                     key={i}
@@ -51,6 +59,7 @@ function Calendar({
                     className={`date
                         ${dayIndex === 5 ? 'saturday' : ''}
                         ${dayIndex === 6 ? 'sunday' : ''}
+                        ${isToday ? 'today' : ''}
                         ${startDate === i+1 ? 'start' : ''}
                         ${endDate === i+1 ? 'end' : ''}
                         ${startDate && endDate && i+1 > startDate && i+1 < endDate ? 'in-range' : ''}

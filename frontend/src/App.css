@@ -159,6 +159,12 @@
   color: #dc2626;
 }
 
+/* Today highlight */
+.today {
+  border: 2px solid #2563eb;
+  font-weight: bold;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .content {
